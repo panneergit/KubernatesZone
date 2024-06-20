@@ -1,0 +1,27 @@
+---
+apiVersion: app/v1
+kind: ReplicaSet
+metadata:
+  name: front-app
+  labels:
+    app: frontapp-rs
+spec:
+  minReadySeconds: 5
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontapp
+  template:
+    metadata:
+      name: frontapp-pod
+      labels:
+        app: frontapp
+        env: dev
+    spec:
+      containers:
+        - name: httpdcnt
+          image: httpd:latest
+          ports:
+            - name: httpdport
+              containerPort: 80
+              protocol: TCP

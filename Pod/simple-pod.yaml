@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+spec:
+  containers:
+    - name: nginximg
+      image: nginx:latest
+      ports:
+        - name: nginxport
+          containerPort: 8080
+          protocol: TCP

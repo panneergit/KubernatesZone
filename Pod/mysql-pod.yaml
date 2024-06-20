@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql-pod
+  labels:
+    app: mysdqldb
+    engine: mysql
+spec:
+  containers:
+    - name: mysqcontainer
+      image: mysql:latest
+      ports:
+        - name: mysqlport
+          containerPort: 3306
+          protocol: TCP
+      env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: root123
+        - name: MYSQL_DATABASE
+          value: studentdb
+        - name: MYSQL_USER
+          value: admin
+        - name: MYSQL_PASSWORD
+          value: admin123
+      resources:
+        limits:
+          cpu: "250m"
+          memory: "500Mi"

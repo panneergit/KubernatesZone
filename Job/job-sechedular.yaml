@@ -1,0 +1,20 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjobapp
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          containers:
+            - name: hello
+              image: alpine
+              imagePullPolicy: IfNotPresent
+              restartPolicy: OnFailure
+              command:
+                - sleep
+                - 30s
