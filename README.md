@@ -28,18 +28,44 @@
 
 6. ReplicaSet example
 
-7. deployment
+7. deployment and rollowing update
 
 8. Service (Front End & Back end service)
 
-9. Container probs
+9. Lets create a spring petclinic rs with loadbalancer service.image: shaikkhajaibrahim/spcjan2024:1.0
 
-10. Job & Cron Jobs
+10. Container probs
 
- -o, --output='':
-        Output format. One of: (json, yaml, name, go-template, go-template-file, template,
-        templatefile, jsonpath, jsonpath-as-json, jsonpath-file, custom-columns,
-        custom-columns-file, wide). See custom columns
-        [https://kubernetes.io/docs/reference/kubectl/#custom-columns], golang template
-        [http://golang.org/pkg/text/template/#pkg-overview] and jsonpath template
-        [https://kubernetes.io/docs/reference/kubectl/jsonpath/].
+11. Job & Cron Jobs
+
+12. Config Map & Secret
+    - Mysql
+    - PostgressSQL
+    - Mongo DB
+
+13. Namespaces
+
+
+
+### Create AKS Cluster
+
+export RANDOM_ID="$(openssl rand -hex 3)"
+export MY_RESOURCE_GROUP_NAME="myAKSResourceGroup$RANDOM_ID"
+export REGION="eastus"
+export MY_AKS_CLUSTER_NAME="myAKSCluster$RANDOM_ID"
+export MY_DNS_LABEL="ltdevops$RANDOM_ID"
+
+az group create --name $MY_RESOURCE_GROUP_NAME --location $REGIONaz 
+
+aks create \    
+    --resource-group $MY_RESOURCE_GROUP_NAME \    
+    --name $MY_AKS_CLUSTER_NAME \    
+    --node-count 2 \    
+    --node-vm-size 'Standard_B2s'
+    
+az aks get-credentials --resource-group $MY_RESOURCE_GROUP_NAME --name$MY_AKS_CLUSTER_NAME
+
+## Delete AKS Cluster
+
+az group delete --name $MY_RESOURCE_GROUP_NAME --yes --no-wait
+
