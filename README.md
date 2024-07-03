@@ -45,6 +45,18 @@
 
 13. Namespaces
 
+14. PVC & PV
+
+15. DeamanSet & Node Selector
+
+16. Statefull Set
+
+17. Ingress 
+
+18. Annotation - Deployment (Rolling update and Rollowing back)
+
+19. Helma & Kostimize
+
 
 
 ### Create AKS Cluster
