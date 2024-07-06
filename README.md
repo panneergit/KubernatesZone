@@ -61,23 +61,43 @@
 
 ### Create AKS Cluster
 
-export RANDOM_ID="$(openssl rand -hex 3)"
-export MY_RESOURCE_GROUP_NAME="myAKSResourceGroup$RANDOM_ID"
-export REGION="eastus"
-export MY_AKS_CLUSTER_NAME="myAKSCluster$RANDOM_ID"
-export MY_DNS_LABEL="ltdevops$RANDOM_ID"
+export RANDOM_ID="$(openssl rand -hex 3)" 
+export MY_RESOURCE_GROUP_NAME="myAKSResourceGroup$RANDOM_ID" 
+export REGION="eastus" 
+export MY_AKS_CLUSTER_NAME="myAKSCluster$RANDOM_ID" 
+export MY_DNS_LABEL="ltdevops$RANDOM_ID" 
 
-az group create --name $MY_RESOURCE_GROUP_NAME --location $REGIONaz 
+## Create Resource Group
 
-aks create \    
+az group create --name $MY_RESOURCE_GROUP_NAME --location $REGION
+
+## Create Kubernates Cluster
+
+az aks create \    
     --resource-group $MY_RESOURCE_GROUP_NAME \    
     --name $MY_AKS_CLUSTER_NAME \    
     --node-count 2 \    
     --node-vm-size 'Standard_B2s'
-    
-az aks get-credentials --resource-group $MY_RESOURCE_GROUP_NAME --name$MY_AKS_CLUSTER_NAME
 
-## Delete AKS Cluster
+az aks create --resource-group $MY_RESOURCE_GROUP_NAME --name $MY_AKS_CLUSTER_NAME --node-count 2 --node-vm-size 'Standard_B2s'
+
+## Get credentails
+az aks get-credentials --resource-group $MY_RESOURCE_GROUP_NAME --name $MY_AKS_CLUSTER_NAME
+
+## Echo credentails for printing
+echo "az aks get-credentials --resource-group $MY_RESOURCE_GROUP_NAME --name $MY_AKS_CLUSTER_NAME"
+
+## Enable Autocomplete - Option
+    # Windows
+    source <(kubectl completion bash)
+
+    # Linux / Mac
+    echo"source <(kubectl completion bash)" >> ~/.bashrc
+
+## Delete AKS Cluster => Deleting resourcve group
 
 az group delete --name $MY_RESOURCE_GROUP_NAME --yes --no-wait
+
+
+az group delete --name 'myAKSResourceGroup228d56' --yes --no-wait
 
