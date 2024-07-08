@@ -9,8 +9,9 @@ spec:
   selector:
     matchLabels:
       app: nginxweb
-  template:
+  template:    
     metadata:
+      name: nginxreplica-pod
       labels:
         app: nginxweb
         env: dev

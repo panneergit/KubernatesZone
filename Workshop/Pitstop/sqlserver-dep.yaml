@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqlserver-deployment
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sqlserver
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      name: sqlserver-pod
+      labels:
+        app: sqlserver
+    spec:
+      containers:
+        - name: sqlserver
+          image: mcr.microsoft.com/azure-sql-edge
+          ports:
+            - name: sqlserverport
+              containerPort: 1434
+              protocol: TCP
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: MSSQL_PID
+              value: Developer
+            - name: SA_PASSWORD
+              value: 8jkGh47hnDw89Haq8LN2  
+          volumeMounts:
+            - name: sqlserver-vol
+              mountPath: /var/opt/mssql
+      volumes:
+        - name: sqlserver-vol
+          emptyDir:
+            sizeLimit: 100Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqlserver-svc
+spec:
+  type: NodePort
+  selector:
+    app: sqlserver
+  ports:
+    - name: sqlserverport
+      targetPort: 1434
+      port: 1434
+      protocol: TCP

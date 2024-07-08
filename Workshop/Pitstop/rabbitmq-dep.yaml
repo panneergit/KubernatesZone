@@ -1,0 +1,63 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-deployment
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      name: rabbitmq-pod
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:3-management-alpine
+          ports:
+            - name: rabbitmqport1
+              containerPort: 15672
+              protocol: TCP
+            - name: rabbitmqport2
+              containerPort: 5672
+              protocol: TCP
+          env:
+            - name: RABBITMQ_CONFIG_FILE
+              value: /etc/pitstop/rabbitmq.conf
+          volumeMounts:
+            - name: rabbitmq-vol
+              mountPath: /var/lib/rabbitmq
+            - name: rabbitmq-vol
+              mountPath: /etc/pitstop/
+      volumes:
+        - name: rabbitmq-vol
+          emptyDir:
+            sizeLimit: 100Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-svc
+spec:
+  type: NodePort
+  selector:
+    app: rabbitmq
+  ports:
+    - name: rabbitmqsvcport1
+      targetPort: 15672
+      port: 15672
+      protocol: TCP
+    - name: rabbitmqsvcport2
+      targetPort: 5672
+      port: 5672
+      protocol: TCP

@@ -15,11 +15,11 @@ spec:
           containerPort: 3306
           protocol: TCP
       env:
-        name: TEST_OPTION_1
-        valueFrom:
-          configMapKeyRef:
-            name: nop-cm
-            key: MYSQL_ROOT_PASSWORD
+        - name: TEST_OPTION_1
+          valueFrom:
+             configMapKeyRef:
+               name: nop-cm
+               key: MYSQL_ROOT_PASSWORD
       envFrom:
         - configMapRef:
             name: nop-cm

@@ -4,17 +4,18 @@ kind: CronJob
 metadata:
   name: cronjobapp
 spec:
-  schedule: "* * * * *"
+  schedule: "*/1 * * * *"
   jobTemplate:
     spec:
-      backoffLimit: 2
+      backoffLimit: 10
       template:
         spec:
           containers:
             - name: hello
               image: alpine
-              imagePullPolicy: IfNotPresent
-              restartPolicy: OnFailure
+              imagePullPolicy: IfNotPresent              
               command:
                 - sleep
-                - 30s
+                - 90s
+          restartPolicy: OnFailure
+      parallelism: 2

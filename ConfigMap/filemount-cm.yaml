@@ -9,10 +9,10 @@ spec:
       image: alpine:latest
       args:
         - sleep
-        - 1d
-    volumeMounts:
-      - name: nop-cm-vol
-        mountPath: /config
+        - 5d
+      volumeMounts:
+        - name: nop-cm-vol
+          mountPath: /config
   volumes:
     - name: nop-cm-vol
       configMap: 
