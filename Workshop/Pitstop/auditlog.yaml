@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auditlog-deployment
+spec:
+  minReadySeconds: 5
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auditlogapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      name: auditlogpod
+      labels:
+        app: auditlogapp
+      spec:
+        containers:
+          - name: auditlogcont
+            image: pitstop/auditlogservice:1.0
+            imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            env:
+              - name: DOTNET_ENVIRONMENT
+                value: Production

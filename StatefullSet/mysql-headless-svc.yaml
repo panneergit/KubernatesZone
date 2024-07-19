@@ -4,9 +4,8 @@ kind: Service
 metadata:
   name: mysql-svc
   labels:
-    app: nginx
+    app: mysqlsvc
 spec:
-  type: clusterIP
   clusterIP: None
   selector:
     app: spcmysql

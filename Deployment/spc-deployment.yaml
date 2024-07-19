@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spc-deployment
+  annotations:
+    kubernetes.io/change-cause: "First Version"
 spec:
   minReadySeconds: 5
   replicas: 3
@@ -22,7 +24,7 @@ spec:
     spec:
       containers:
         - name: sdsd
-          image: asdas:fvc
+          image: shaikkhajaibrahim/dmtest:1.0
           ports:
             - name: spcport
               containerPort: 8080

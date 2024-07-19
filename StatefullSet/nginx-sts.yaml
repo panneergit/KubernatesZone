@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx-sts
+spec:
+  minReadySeconds: 5
+  replicas: 3
+  serviceName: "nginx-headless-svc"
+  selector:
+    matchLabels:
+      app: nginxapp
+  template:
+    metadata:
+      name: nginxpod
+      spec:
+        containers:
+          - name: nginxappcnt
+            image: nginx:latest
+            imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            ports:
+              - name: nginxport
+                containerPort: 80
+                protocol: TCP
+            volumeMounts:
+              - name: nginxcache-vol
+                mountPath: /temp/logs
+        volumes:
+          - name: nginxcache-vol
+            emptyDir: 100Mi

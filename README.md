@@ -29,6 +29,15 @@
 6. ReplicaSet example
 
 7. deployment and rollowing update
+   > kubectl describe deployment nginx-deployment
+   > kubectl rollout history deployment/nginx-deployment
+   > kubectl rollout history deployment/nginx-deployment --revision=2
+   > kubectl rollout undo deployment/nginx-deployment
+   > kubectl rollout undo deployment/nginx-deployment --to-revision=2
+
+   > kubectl scale deployment/nginx-deployment --replicas=10
+   > kubectl autoscale deployment/nginx-deployment --min=10 --max=15 --cpu-percent=80
+
 
 8. Service (Front End & Back end service)
 
@@ -51,7 +60,7 @@
 
 16. Statefull Set
 
-17. Ingress 
+17. Ingress
 
 18. Annotation - Deployment (Rolling update and Rollowing back)
 

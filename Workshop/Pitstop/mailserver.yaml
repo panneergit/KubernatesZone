@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mailserver-deployment
+spec:
+  minReadySeconds: 5
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mailserverapp
+  template:
+    metadata:
+      name: mailserverpod
+      labels:
+        app: mailserverapp
+      spec:
+        containers:
+          - name: mailservercont
+            image: maildev/maildev:1.1.0
+            imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            ports:
+              - name: mailserversmtp
+                containerPort: 25
+                protocol: TCP
+              - name: mailserverhttp
+                containerPort: 80
+                protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mailserver-svc
+spec:
+  type: NodePort
+  selector:
+    app: mailserverapp
+  ports:
+    - name: mailserversvcsmtp
+      port: 25
+      targetPort: 25
+      protocol: TCP
+    - name: mailserversvchttp
+      port: 4000
+      targetPort: 80
+      protocol: TCP

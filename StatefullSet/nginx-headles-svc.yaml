@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-headless-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: nginxapp
+  clusterIP: None
+  ports:
+    - name: nginxsvcport
+      port: 80
+      targetPort: 80
+      protocol: TCP

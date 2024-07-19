@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-deployment
+spec:
+  minReadySeconds: 5
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notificationapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      name: notificationpod
+      labels:
+        app: notificationapp
+      spec:
+        containers:
+          - name: notificationcont
+            image: pitstop/notificationservice:1.0
+            imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            env:
+              - name: DOTNET_ENVIRONMENT
+                value: Production

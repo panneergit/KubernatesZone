@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customermanagement-deployment
+spec:
+  minReadySeconds: 5
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customermanagementapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      name: customermanagementpod
+      labels:
+        app: customermanagementapp
+      spec:
+        containers:
+          - name: customermanagementcont
+            image: pitstop/customermanagementapi:1.0
+            imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            env:
+              - name: ASPNETCORE_ENVIRONMENT
+                value: Production
+            ports:
+              - name: customermanagementport
+                containerPort: 5100
+                protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customermanagement-svc
+spec:
+  type: NodePort
+  selector:
+    app: customermanagementapp
+  ports:
+    - name: customermanagementsvcport
+      port: 5100
+      targetPort: 5100
+      protocol: TCP

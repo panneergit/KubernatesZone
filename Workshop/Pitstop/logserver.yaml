@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logserver-deployment
+spec:
+  minReadySeconds: 5
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logserverapp
+  template:
+    metadata:
+      name: logserverpod
+      labels:
+        app: logserverapp
+      spec:
+        containers:
+          - name: logservercont
+            image: datalust/seq:latest
+            imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            env:
+              - name: ACCEPT_EULA
+                value: "Y"
+            ports:
+              - name: logserverhttp
+                containerPort: 80
+                protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logserver-svc
+spec:
+  type: NodePort
+  selector:
+    app: logserverapp
+  ports:
+    - name: logserversvchttp
+      port: 5341
+      targetPort: 80
+      protocol: TCP

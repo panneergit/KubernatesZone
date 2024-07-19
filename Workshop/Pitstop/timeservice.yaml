@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timeservice-deployment
+spec:
+  minReadySeconds: 5
+  replicas: 1
+  selector:
+    matchLabels:
+      app: timeserviceapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      name: timeservicepod
+      labels:
+        app: timeserviceapp
+      spec:
+        containers:
+          - name: timeservicecont
+            image: pitstop/timeservice:1.0
+            imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+            env:
+              - name: DOTNET_ENVIRONMENT
+                value: Production

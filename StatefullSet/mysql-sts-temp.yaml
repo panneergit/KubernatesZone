@@ -32,21 +32,15 @@ spec:
             - name: MYSQL_USER
               value: admin
             - name: MYSQL_PASSWORD
-              value: admin123          
+              value: admin123
           resources:
             limits:
               memory: 512Mi
               cpu: 1000m
           volumeMounts:
-            - name: mysqlpvc
+            - name: mysql-vol-temp
               mountPath: /var/lib/mysql
-
-  volumeClaimTemplates:
-    - metadata:
-        name: mysqlpvc
-        spec:
-          accessModes: ["ReadWriteOnce"]
-          storageClassName: managed-premium
-          resources:
-            requests:
-              storage: 1Gi
+      volumes:
+        - name: mysql-vol-temp
+          emptyDir:
+            sizeLimit: 200Mi

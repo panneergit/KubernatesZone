@@ -1,0 +1,31 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ingress
+spec:
+  ingressClassName: nginx
+  host: example.com
+  http:
+    paths:
+      - path: /healet
+        pathType: prefix
+        backend:
+          service:
+            name: healet-svc
+            port:
+              number: 80
+      - path: /preschool
+        pathType: prefix
+        backend:
+          service:
+            name: preschool-svc
+            port:
+              number: 80
+      - path: /skating
+        pathType: prefix
+        backend:
+          service:
+            name: skating-svc
+            port:
+              number: 80
