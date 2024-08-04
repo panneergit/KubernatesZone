@@ -1,0 +1,19 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spc-deployment
+spec:
+  minReadySeconds: 5
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spcapp
+  template:
+    metadata:
+      name: spcpod
+      labels:
+        app: spcapp
+    spec:
+      
+    
