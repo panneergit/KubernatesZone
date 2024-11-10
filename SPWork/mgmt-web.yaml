@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-mgmt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-mgmt
+  template:
+    metadata:
+      labels:
+        app: web-mgmt
+    spec:
+      containers:
+        - name: web-mgmt
+          image: digienvision/web-mgmt:1.0
+          ports:
+            - name: web-mgmt-cnt-port
+              containerPort: 3000
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-mgmt
+  labels:
+    app: web-mgmt
+spec:
+  type: NodePort  # Change the service type to NodePort
+  selector:
+    app: web-mgmt
+  ports:
+    - name: web-mgmt-svc-port
+      port: 3000
+      targetPort: 3000
+      protocol: TCP
+      nodePort: 30000

@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo-service
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-spec
+  serviceName: mongo-service
+  template:
+    metadata:
+      labels:
+        app: mongo-spec
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mongocontainer
+          image: mongo:latest
+          ports:
+            - name: mongoport
+              containerPort: 27017
+              protocol: TCP
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: de
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: Digi123
+          volumeMounts:
+            - name: mongo-persistent-storage
+              mountPath: /data/db
+      volumes:
+        - name: mongo-persistent-storage
+          persistentVolumeClaim:
+            claimName: mongo-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+  labels:
+    app: mongo-service
+spec:
+  clusterIP: None
+  selector:
+    app: mongo-spec
+  ports:
+    - name: mongo-spec-port
+      port: 27017
+      targetPort: 27017
+      protocol: TCP

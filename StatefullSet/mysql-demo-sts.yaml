@@ -1,0 +1,65 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-sts
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spcmysql
+  serviceName: "mysql-svc"
+  template:
+    metadata:
+      name: spcmysql
+      labels:
+        app: spcmysql
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mysqcontainer
+          image: mysql:latest
+          ports:
+            - name: mysqlport
+              containerPort: 3306
+              protocol: TCP
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root123
+            - name: MYSQL_DATABASE
+              value: studentdb
+            - name: MYSQL_USER
+              value: admin
+            - name: MYSQL_PASSWORD
+              value: admin123
+          resources:
+            requests:
+              cpu: 250m
+              memory: 250Mi
+            limits:
+              cpu: 1000m
+              memory: 512Mi
+          volumeMounts:
+            - name: mysql-vol-temp
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-vol-temp
+          emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-svc
+  labels:
+    app: mysqlsvc
+spec:
+  clusterIP: None
+  selector:
+    app: spcmysql
+  ports:
+    - name: mysqlsvcport
+      port: 3306
+      targetPort: 3306
+      protocol: TCP

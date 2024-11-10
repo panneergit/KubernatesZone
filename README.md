@@ -62,12 +62,17 @@
 
 17. Ingress
 
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/cloud/deploy.yaml
+
+    kubectl get po --namespace ingress-nginx
+    
+
 18. Annotation - Deployment (Rolling update and Rollowing back)
 
 19. Helma & Kostimize
 
 
-
+=================================================================================
 ### Create AKS Cluster
 
 export RANDOM_ID="$(openssl rand -hex 3)" 
@@ -110,3 +115,4 @@ az group delete --name $MY_RESOURCE_GROUP_NAME --yes --no-wait
 
 az group delete --name 'myAKSResourceGroup228d56' --yes --no-wait
 
+=========================================================================

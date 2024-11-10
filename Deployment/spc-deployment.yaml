@@ -7,7 +7,7 @@ metadata:
     kubernetes.io/change-cause: "First Version"
 spec:
   minReadySeconds: 5
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: spcapp
@@ -23,16 +23,24 @@ spec:
         app: spcapp
     spec:
       containers:
-        - name: sdsd
-          image: shaikkhajaibrahim/dmtest:1.0
+        - name: spccont
+          image: panneercts/springpetclinic:v1.0
           ports:
             - name: spcport
               containerPort: 8080
               protocol: TCP
-          resources:
-            requests:
-              cpu: "250m"
-              memory: "250Mi"
-            limits:
-              cpu: "500m"
-              memory: "500Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spcapp-svc
+spec:
+  type: NodePort
+  selector:
+    app: spcapp
+  ports:
+    - name: spcapp-port
+      targetPort: 8080
+      port: 8080
+      protocol: TCP
