@@ -37,7 +37,7 @@ metadata:
   labels:
     app: service-mgmt
 spec:
-  type: NodePort  # Change the service type to NodePort
+  type: NodePort
   selector:
     app: service-mgmt
   ports:
