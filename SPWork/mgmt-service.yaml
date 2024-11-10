@@ -17,7 +17,7 @@ spec:
         - name: service-mgmt
           image: digienvision/service-mgmt:1.0
           ports:
-            - name: service-mgmt-cnt-port
+            - name: mgmt-cnt-port
               containerPort: 8090
               protocol: TCP
           env:
@@ -41,7 +41,7 @@ spec:
   selector:
     app: service-mgmt
   ports:
-    - name: service-mgmt-svc-port
+    - name: mgmt-svc-port
       port: 8090
       targetPort: 8090
       protocol: TCP

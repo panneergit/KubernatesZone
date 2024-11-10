@@ -17,7 +17,7 @@ spec:
         - name: auth-mgmt
           image: digienvision/auth-mgmt:1.0
           ports:
-            - name: auth-mgmt-cnt-port
+            - name: auth-cnt-port
               containerPort: 8070
               protocol: TCP
           env:
@@ -41,7 +41,7 @@ spec:
   selector:
     app: auth-mgmt
   ports:
-    - name: auth-mgmt-svc-port
+    - name: auth-svc-port
       port: 8070
       targetPort: 8070
       protocol: TCP
