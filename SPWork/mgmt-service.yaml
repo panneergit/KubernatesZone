@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: service-mgmt
-          image: digienvision/service-mgmt:1.0
+          image: digienvision/service-mgmt:1.5
           ports:
             - name: mgmt-cnt-port
               containerPort: 8090

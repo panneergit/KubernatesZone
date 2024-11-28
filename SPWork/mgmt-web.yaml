@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
         - name: web-mgmt
-          image: digienvision/web-mgmt:1.0
+          image: digienvision/web-mgmt:1.7
           ports:
-            - name: web-mgmt-cnt-port
+            - name: web-mgmt-port
               containerPort: 3000
               protocol: TCP
 ---
@@ -32,7 +32,7 @@ spec:
   selector:
     app: web-mgmt
   ports:
-    - name: web-mgmt-svc-port
+    - name: web-mg-svc-port
       port: 3000
       targetPort: 3000
       protocol: TCP

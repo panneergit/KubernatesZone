@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: auth-mgmt
-          image: digienvision/auth-mgmt:1.0
+          image: digienvision/auth-mgmt:1.5
           ports:
             - name: auth-cnt-port
               containerPort: 8070
@@ -24,7 +24,7 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: "prod"
             - name: SPRING_DATASOURCE_URL
-              value: "mongodb://de:Digi123@mongo-service:27017/auth"
+              value: "mongodb://de:Digi123@mongo-service:27017/auth?authSource=admin&authMechanism=SCRAM-SHA-1"
             - name: SPRING_DATASOURCE_USERNAME
               value: "de"
             - name: SPRING_DATASOURCE_PASSWORD
